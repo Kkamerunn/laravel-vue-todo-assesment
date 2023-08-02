@@ -23,13 +23,8 @@ export async function loginAPI(formData) {
     password,
   };
 
-  try {
-    const { data } = await axiosClient.post("/login", userData);
-    setTokenApi(data.token);
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+  const { data } = await axiosClient.post("/login", userData);
+  setTokenApi(data.token);
 }
 
 export async function logoutAPI() {

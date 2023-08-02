@@ -74,7 +74,6 @@ export default {
     });
 
     const register = async () => {
-      formError.value = null;
       loading.value = true;
 
       try {
@@ -86,9 +85,11 @@ export default {
 
       loading.value = false;
 
-      setTimeout(() => {
-        formError.value = null;
-      }, 8000);
+      if (formError.value !== null) {
+        setTimeout(() => {
+          formError.value = null;
+        }, 8000);
+      }
     };
 
     return {

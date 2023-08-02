@@ -1,9 +1,8 @@
 import axiosClient from "../config/axios";
 import { getTokenApi } from "../api/token";
 
-const token = getTokenApi();
-
 export async function getTodosAPI() {
+  const token = getTokenApi();
   try {
     const { data } = await axiosClient("/todos", {
       headers: {
@@ -18,6 +17,7 @@ export async function getTodosAPI() {
 }
 
 export async function createTodoAPI(formData) {
+  const token = getTokenApi();
   const { title, detail } = formData;
 
   const newTodo = {
@@ -37,6 +37,7 @@ export async function createTodoAPI(formData) {
 }
 
 export async function updateTodoAPI(formData, id) {
+  const token = getTokenApi();
   const { title, detail } = formData;
 
   const newTodo = {
@@ -56,6 +57,7 @@ export async function updateTodoAPI(formData, id) {
 }
 
 export async function deleteTodoAPI(id) {
+  const token = getTokenApi();
   try {
     await axiosClient.delete(`/todos/${id}`, {
       headers: {

@@ -43,7 +43,6 @@ export default {
       title: store.getters.getTodoUpdate["title"],
       detail: store.getters.getTodoUpdate["detail"],
     });
-    let formError = ref({});
     let loading = ref(false);
     const router = useRouter();
     const route = useRoute();
@@ -54,19 +53,22 @@ export default {
     });
 
     const updateTodo = async () => {
-      formError.value = {};
+      loading.value = true;
+
       const todoId = route.params.id;
+
       try {
         await updateTodoAPI(formData.value, todoId);
         router.push("/");
       } catch (error) {
         console.log(error);
       }
+
+      loading.value = false;
     };
 
     return {
       formData,
-      formError,
       loading,
       updateTodo,
     };

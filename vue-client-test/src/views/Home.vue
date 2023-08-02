@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, onBeforeUnmount } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 import { getTokenApi } from "../api/token";
 import { getTodosAPI, deleteTodoAPI } from "../api/todo";
@@ -36,12 +36,16 @@ export default {
     const todos = computed(() => store.getters.getTodosList);
     const token = getTokenApi();
 
-    onMounted(() => {
+    onMounted(async () => {
       if (!token) {
         return router.push("/login");
       } else {
         getTodos();
       }
+    });
+
+    onBeforeUnmount(() => {
+      store.dispatch("addTodosList", []);
     });
 
     const getTodos = async () => {

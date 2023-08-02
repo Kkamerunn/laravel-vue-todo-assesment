@@ -37,7 +37,6 @@ export default {
   },
   setup() {
     let formData = ref({});
-    let formError = ref({});
     let loading = ref(false);
     const router = useRouter();
     const token = getTokenApi();
@@ -47,18 +46,20 @@ export default {
     });
 
     const createTodo = async () => {
-      formError.value = {};
+      loading.value = true;
+
       try {
         await createTodoAPI(formData.value);
         router.push("/");
       } catch (error) {
         console.log(error);
       }
+
+      loading.value = false;
     };
 
     return {
       formData,
-      formError,
       loading,
       createTodo,
     };

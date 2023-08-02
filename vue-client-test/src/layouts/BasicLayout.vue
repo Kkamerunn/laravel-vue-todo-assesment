@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-app>
-      <v-app-bar color="primary" density="compact">
+      <v-app-bar color="blue" density="compact">
         <v-app-bar-title
           ><v-btn @click="goHome">Todo Vuetify</v-btn></v-app-bar-title
         >
@@ -44,3 +44,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-layout--full-height {
+  height: 10vh !important;
+}
+</style>

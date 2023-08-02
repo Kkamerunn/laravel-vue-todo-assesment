@@ -1,6 +1,16 @@
 <template>
   <AuthLayout>
     <v-sheet width="300" class="mx-auto">
+      <v-sheet v-if="formError">
+        <v-alert
+          v-for="(err, index) in formError"
+          :key="index"
+          type="error"
+          :title="err[0]"
+          class="my-3"
+          density="compact"
+        ></v-alert>
+      </v-sheet>
       <v-form @submit.prevent="login">
         <v-text-field
           v-model="formData.email"
@@ -40,7 +50,7 @@ export default {
   },
   setup() {
     let formData = ref({});
-    let formError = ref({});
+    let formError = ref(null);
     let loading = ref(false);
     const router = useRouter();
     const token = getTokenApi();
@@ -50,12 +60,19 @@ export default {
     });
 
     const login = async () => {
-      formError.value = {};
+      loading.value = true;
+
       try {
         await loginAPI(formData.value);
-        router.push("/");
+        if (getTokenApi()) return router.push("/");
       } catch (error) {
-        console.log(error);
+        formError.value = error.response.data.errors;
+      }
+
+      if (formError.value !== null) {
+        setTimeout(() => {
+          formError.value = null;
+        }, 8000);
       }
     };
 
