@@ -60,12 +60,10 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        $todoUpdate = Todo::find($todo->id);
-        
-        $todoUpdate->title = $request->title;
-        $todoUpdate->detail = $request->detail;
+        $todo->title = $request->title;
+        $todo->detail = $request->detail;
 
-        $todoUpdate->save();
+        $todo->save();
 
         return [
             'todo' => $todo
@@ -80,8 +78,7 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        $todoToBeRemoved = Todo::find($todo->id);
-        $todoToBeRemoved->delete();
+        $todo->delete();
 
         return [
             'message' => 'Todo successfully removed!'

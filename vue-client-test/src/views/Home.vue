@@ -2,17 +2,15 @@
   <BasicLayout>
     <v-row justify="center" no-gutters>
       <v-col cols="7">
-        <v-card v-for="todo in todos" :key="todo.id" class="mx-auto">
+        <v-card v-for="todo in todos" :key="todo.id" class="mx-auto my-10">
           <v-card-title>{{ todo.title }}</v-card-title>
           <v-card-text>{{ todo.detail }}</v-card-text>
-          <v-btn color="blue" class="mx-5 my-4">
-            <router-link
-              class="text-decoration-none text-white"
-              :to="`/update-todo/${todo.id}`"
-              >Edit</router-link
-            >
+          <v-btn @click="goEdit(todo)" color="blue" class="mx-5 my-4">
+            Edit
           </v-btn>
-          <v-btn color="blue" class="mx-2 my-4">Remove</v-btn>
+          <v-btn @click="deleteTodo(todo.id)" color="blue" class="mx-2 my-4"
+            >Remove</v-btn
+          >
         </v-card>
       </v-col>
     </v-row>
@@ -20,11 +18,12 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 import { getTokenApi } from "../api/token";
-import { getTodosAPI } from "../api/todo";
+import { getTodosAPI, deleteTodoAPI } from "../api/todo";
 import BasicLayout from "../layouts/BasicLayout.vue";
+import { useStore } from "vuex";
 
 export default {
   components: {
@@ -32,23 +31,42 @@ export default {
     RouterLink,
   },
   setup() {
-    const token = getTokenApi();
     const router = useRouter();
-    let todos = ref([]);
+    const store = useStore();
+    const todos = computed(() => store.getters.getTodosList);
+    const token = getTokenApi();
 
     onMounted(() => {
-      if (!token) return router.push("/login");
+      if (!token) {
+        return router.push("/login");
+      } else {
+        getTodos();
+      }
     });
 
-    onMounted(async () => {
+    const getTodos = async () => {
       const todosResponse = await getTodosAPI();
-      console.log(todosResponse);
-      todos.value = todosResponse;
-      console.log(todos.value);
-    });
+      store.dispatch("addTodosList", todosResponse);
+    };
+
+    const goEdit = (todo) => {
+      store.dispatch("addTodoUpdate", todo);
+      router.push(`/update-todo/${todo.id}`);
+    };
+
+    const deleteTodo = (id) => {
+      deleteTodoAPI(id);
+      store.dispatch("addTodoUpdate", {
+        title: "",
+        detail: "",
+      });
+      getTodos();
+    };
 
     return {
       todos,
+      goEdit,
+      deleteTodo,
     };
   },
 };

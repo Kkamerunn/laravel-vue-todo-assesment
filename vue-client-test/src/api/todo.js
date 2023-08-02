@@ -36,7 +36,7 @@ export async function createTodoAPI(formData) {
   }
 }
 
-export async function updateTodoAPI(formData) {
+export async function updateTodoAPI(formData, id) {
   const { title, detail } = formData;
 
   const newTodo = {
@@ -45,12 +45,23 @@ export async function updateTodoAPI(formData) {
   };
 
   try {
-    const { data } = await axiosClient.put("/todos", newTodo, {
+    const { data } = await axiosClient.put(`/todos/${id}`, newTodo, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deleteTodoAPI(id) {
+  try {
+    await axiosClient.delete(`/todos/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
     console.log(error);
   }

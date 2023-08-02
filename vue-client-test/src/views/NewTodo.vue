@@ -16,8 +16,12 @@
         ></v-textarea>
         <v-btn type="submit" block class="mt-2">Create Todo</v-btn>
       </v-form>
+      <v-sheet class="d-flex flex-column align-center">
+        <v-btn to="/" class="mt-3 bg-light-blue-lighten-1 text-white"
+          >See my todos</v-btn
+        >
+      </v-sheet>
     </v-sheet>
-    <router-link to="/">See my todos</router-link>
   </BasicLayout>
 </template>
 

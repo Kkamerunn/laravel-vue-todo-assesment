@@ -1,6 +1,16 @@
 <template>
   <AuthLayout>
     <v-sheet width="300" class="mx-auto">
+      <v-sheet v-if="formError">
+        <v-alert
+          v-for="(err, index) in formError"
+          :key="index"
+          type="error"
+          :title="err[0]"
+          class="my-3"
+          density="compact"
+        ></v-alert>
+      </v-sheet>
       <v-form @submit.prevent="register">
         <v-text-field
           v-model="formData.name"
@@ -54,33 +64,31 @@ export default {
   },
   setup() {
     let formData = ref({});
-    let formError = ref({});
+    let formError = ref(null);
     let loading = ref(false);
     const router = useRouter();
     const token = getTokenApi();
-    const rules = [
-      (value) => {
-        if (value) return true;
-        return "This field is madatory";
-      },
-    ];
 
     onMounted(() => {
       if (token) return router.push("/");
     });
 
     const register = async () => {
-      formError.value = {};
+      formError.value = null;
       loading.value = true;
 
       try {
         await registerAPI(formData.value);
-        router.push("/");
+        if (getTokenApi()) return router.push("/");
       } catch (error) {
-        console.log(error);
+        formError.value = error.response.data.errors;
       }
 
       loading.value = false;
+
+      setTimeout(() => {
+        formError.value = null;
+      }, 8000);
     };
 
     return {
@@ -88,7 +96,6 @@ export default {
       register,
       formError,
       loading,
-      rules,
     };
   },
 };

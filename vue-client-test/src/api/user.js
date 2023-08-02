@@ -1,5 +1,5 @@
 import axiosClient from "../config/axios";
-import { getTokenApi } from "./token";
+import { getTokenApi, deleteTokenApi, setTokenApi } from "./token";
 
 export const registerAPI = async (formData) => {
   const { email, name, password, repeatPassword } = formData;
@@ -11,12 +11,8 @@ export const registerAPI = async (formData) => {
     password_confirmation: repeatPassword,
   };
 
-  try {
-    const { data } = await axiosClient.post("/register", newUserData);
-    localStorage.setItem("AUTH_TOKEN", data.token);
-  } catch (error) {
-    console.log(error);
-  }
+  const { data } = await axiosClient.post("/register", newUserData);
+  setTokenApi(data.token);
 };
 
 export async function loginAPI(formData) {
@@ -29,7 +25,7 @@ export async function loginAPI(formData) {
 
   try {
     const { data } = await axiosClient.post("/login", userData);
-    localStorage.setItem("AUTH_TOKEN", data.token);
+    setTokenApi(data.token);
   } catch (error) {
     console.log(error);
     return null;
@@ -44,7 +40,7 @@ export async function logoutAPI() {
         Authorization: `Bearer ${token}`,
       },
     });
-    localStorage.removeItem("AUTH_TOKEN");
+    deleteTokenApi();
   } catch (err) {
     console.log(err);
   }
