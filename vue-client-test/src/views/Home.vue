@@ -2,16 +2,13 @@
   <BasicLayout>
     <v-row justify="center" no-gutters>
       <v-col cols="7">
-        <v-card v-for="todo in todos" :key="todo.id" class="mx-auto my-10">
-          <v-card-title>{{ todo.title }}</v-card-title>
-          <v-card-text>{{ todo.detail }}</v-card-text>
-          <v-btn @click="goEdit(todo)" color="blue" class="mx-5 my-4">
-            Edit
-          </v-btn>
-          <v-btn @click="deleteTodo(todo.id)" color="blue" class="mx-2 my-4"
-            >Remove</v-btn
-          >
-        </v-card>
+        <Card
+          v-for="todo in todos"
+          :key="todo.id"
+          :todo="todo"
+          :editHandler="goEdit"
+          :deleteHandler="deleteTodo"
+        />
       </v-col>
     </v-row>
   </BasicLayout>
@@ -23,11 +20,13 @@ import { useRouter } from "vue-router";
 import { getTokenApi } from "../api/token";
 import { getTodosAPI, deleteTodoAPI } from "../api/todo";
 import BasicLayout from "../layouts/BasicLayout.vue";
+import Card from "../components/Card.vue";
 import { useStore } from "vuex";
 
 export default {
   components: {
     BasicLayout,
+    Card,
   },
   setup() {
     const router = useRouter();

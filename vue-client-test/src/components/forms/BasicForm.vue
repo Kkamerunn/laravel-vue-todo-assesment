@@ -1,21 +1,22 @@
 <template>
   <v-sheet width="300" class="mx-auto">
-    <v-form @submit.prevent="func === 'create' ? createTodo : updateTodo">
+    <template v-if="loading">
+      <v-alert type="success" title="Loading..." class="my-4"></v-alert>
+    </template>
+    <v-form @submit.prevent="formSubmitHandler">
       <v-text-field
         v-model="formData.title"
         clearable
         type="text"
-        :label="func === 'create' ? 'Title' : 'New title'"
+        :label="textFieldValue"
       ></v-text-field>
       <v-textarea
         v-model="formData.detail"
         clearable
         auto-grow
-        :label="func === 'create' ? 'Detail' : 'New detail'"
+        :label="textAreaValue"
       ></v-textarea>
-      <v-btn type="submit" block class="mt-2">{{
-        func === "create" ? "Create Todo" : "Update Todo"
-      }}</v-btn>
+      <v-btn type="submit" block class="mt-2">{{ submitButtonValue }}</v-btn>
     </v-form>
     <v-sheet class="d-flex flex-column align-center">
       <v-btn to="/" class="mt-3 bg-light-blue-lighten-1 text-white"
@@ -27,26 +28,37 @@
 
 <script>
 import { ref, onMounted, computed } from "vue";
-import { createTodoAPI } from "../api/todo";
-import { getTokenApi } from "../api/token";
+import { createTodoAPI, updateTodoAPI } from "../../api/todo";
+import { getTokenApi } from "../../api/token";
 import { useRouter, useRoute } from "vue-router";
-import { updateTodoAPI } from "../api/todo";
 import { useStore } from "vuex";
 
 export default {
-  components: {
-    BasicLayout,
+  props: {
+    create: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
-    const func = computed(() => {
-      return props.functionality;
+    const formSubmitHandler = computed(() => {
+      return props.create === true ? () => createTodo() : () => updateTodo();
+    });
+    const textFieldValue = computed(() => {
+      return props.create === true ? "Title" : "New title";
+    });
+    const textAreaValue = computed(() => {
+      return props.create === true ? "Detail" : "New detail";
+    });
+    const submitButtonValue = computed(() => {
+      return props.create === true ? "Create Todo" : "Update Todo";
     });
     const router = useRouter();
     const token = getTokenApi();
     const route = useRoute();
     const store = useStore();
     let formData = ref(
-      func === "create"
+      props.create === true
         ? {}
         : {
             title: store.getters.getTodoUpdate["title"],
@@ -92,7 +104,10 @@ export default {
       loading,
       createTodo,
       updateTodo,
-      func,
+      formSubmitHandler,
+      textFieldValue,
+      textAreaValue,
+      submitButtonValue,
     };
   },
 };
