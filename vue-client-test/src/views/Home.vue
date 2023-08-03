@@ -19,7 +19,7 @@
 
 <script>
 import { computed, onMounted, onBeforeUnmount } from "vue";
-import { useRouter, RouterLink } from "vue-router";
+import { useRouter } from "vue-router";
 import { getTokenApi } from "../api/token";
 import { getTodosAPI, deleteTodoAPI } from "../api/todo";
 import BasicLayout from "../layouts/BasicLayout.vue";
@@ -28,7 +28,6 @@ import { useStore } from "vuex";
 export default {
   components: {
     BasicLayout,
-    RouterLink,
   },
   setup() {
     const router = useRouter();
