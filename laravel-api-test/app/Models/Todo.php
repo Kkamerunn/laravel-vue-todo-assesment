@@ -11,6 +11,7 @@ class Todo extends Model
 
     public function user()
     {
+        // Getter that retrieves the user that the todo belongs to
         return $this->belongsTo(User::class);
     }
 }

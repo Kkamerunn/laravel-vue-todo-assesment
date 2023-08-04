@@ -21,13 +21,14 @@ Route::middleware('auth:sanctum')->group(function() {
         return $request->user();
     });
 
+    // Logout route
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    // Todos CRUD
+    // Todos CRUD routes
     Route::apiResource('/todos', TodoController::class); 
 });
 
 
-// Authentication
+// Authentication routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

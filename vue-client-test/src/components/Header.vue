@@ -1,4 +1,5 @@
 <template>
+  <!--Build the Header component used for navigation-->
   <v-app>
     <v-app-bar color="blue" density="compact">
       <v-app-bar-title
@@ -17,17 +18,20 @@ import { useRouter } from "vue-router";
 export default {
   name: "Header",
   setup() {
-    const router = useRouter();
+    const router = useRouter(); // Call the router to navigate
 
+    // Sign the user out of the app
     const logout = async () => {
       await logoutAPI();
       router.push("/login");
     };
 
+    // Navigate to the create Todo's page
     const goNewTodo = () => {
       router.push("/new-todo");
     };
 
+    // Navigate to home
     const goHome = () => {
       router.push("/");
     };

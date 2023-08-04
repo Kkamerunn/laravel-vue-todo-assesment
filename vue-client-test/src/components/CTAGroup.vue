@@ -1,4 +1,5 @@
 <template>
+  <!--Build a CTA component to be used in the Authentication form component for redirection-->
   <v-sheet class="d-flex flex-column align-center">
     <p class="mt-5">{{ textContent }}</p>
     <v-btn
@@ -15,6 +16,7 @@ import { computed } from "vue";
 export default {
   props: ["textContent", "buttonTextContent", "routeDirection"],
   setup(props) {
+    // Receive all the props and save them in computed properties so that they can be consumed on the template
     const textContent = computed(() => {
       return props.textContent;
     });

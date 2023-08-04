@@ -1,4 +1,5 @@
 <template>
+  <!--Set a button handler-->
   <v-btn @click="$emit('eventHandler')" color="blue">
     {{ textContent }}
   </v-btn>
@@ -12,6 +13,7 @@ export default {
     text: String,
   },
   setup(props) {
+    // It's hole functionality depends on props
     const textContent = computed(() => {
       return props.text;
     });

@@ -1,5 +1,7 @@
 <template>
+  <!--Layout-->
   <AuthLayout>
+    <!--Register form-->
     <AuthForm :register="true" />
   </AuthLayout>
 </template>

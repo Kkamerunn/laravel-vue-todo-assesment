@@ -1,5 +1,7 @@
 <template>
+  <!--Layout-->
   <BasicLayout>
+    <!--Form for creating new todos-->
     <BasicForm create />
   </BasicLayout>
 </template>

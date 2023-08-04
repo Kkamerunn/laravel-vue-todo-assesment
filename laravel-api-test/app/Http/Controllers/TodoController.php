@@ -17,6 +17,7 @@ class TodoController extends Controller
      */
     public function index()
     {
+        // Return a todo's collection that belongs to the authenticated user
         return new TodoCollection(Todo::where('user_id', Auth::user()->id)->get());
     }
 
@@ -60,9 +61,11 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
+        // Update todo
         $todo->title = $request->title;
         $todo->detail = $request->detail;
 
+        // Save changes
         $todo->save();
 
         return [
@@ -78,6 +81,7 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
+        // Delete todo
         $todo->delete();
 
         return [

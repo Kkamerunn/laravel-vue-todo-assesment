@@ -1,6 +1,8 @@
 import { createStore } from "vuex";
 
+// Create the vuex's store
 const store = createStore({
+  // Declare all the properties we are using at the app
   state() {
     return {
       todoUpdate: {
@@ -10,6 +12,7 @@ const store = createStore({
       todosList: [],
     };
   },
+  // Define all the mutations through which we mutate all the state's properties
   mutations: {
     setTodoUpdate(state, payload) {
       state.todoUpdate = {
@@ -21,6 +24,7 @@ const store = createStore({
       state.todosList = payload;
     },
   },
+  // Here we define all the actions that indeed call the activate all the mutations
   actions: {
     addTodoUpdate(ctx, todoUpdate) {
       ctx.commit("setTodoUpdate", todoUpdate);
@@ -29,6 +33,7 @@ const store = createStore({
       ctx.commit("setTodosList", todos);
     },
   },
+  // Here we define all the getters we use to consume the state's properties at the app
   getters: {
     getTodoUpdate({ todoUpdate }) {
       return todoUpdate;

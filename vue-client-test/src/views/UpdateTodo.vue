@@ -1,5 +1,7 @@
 <template>
+  <!--Layout-->
   <BasicLayout>
+    <!--Form for updating todos-->
     <BasicForm />
   </BasicLayout>
 </template>

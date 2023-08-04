@@ -5,6 +5,7 @@ import Register from "../views/Register.vue";
 import NewTodo from "../views/NewTodo.vue";
 import UpdateTodo from "../views/UpdateTodo.vue";
 
+// Configure the router to navigate in the app
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

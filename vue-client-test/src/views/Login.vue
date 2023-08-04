@@ -1,5 +1,7 @@
 <template>
+  <!--Layout-->
   <AuthLayout>
+    <!--Login form-->
     <AuthForm />
   </AuthLayout>
 </template>
